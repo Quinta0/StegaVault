@@ -51,7 +51,7 @@ export default function Home() {
     <div className={styles.container}>
       <h1>StegaVault</h1>
       <div>
-        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} />
+        <input type="file" onChange={(e) => setImage(e.target.files?.[0] ?? null)} />
         <input type="text" placeholder="Output Path" onChange={(e) => setOutputPath(e.target.value)} />
         <input type="text" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         <button onClick={hidePassword}>Hide Password</button>
