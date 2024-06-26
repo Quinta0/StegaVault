@@ -15,4 +15,4 @@ StegaVault is a secure, self-hosted password vault application that leverages th
 - Frontend: Next.js
 - Database: SQLite (for simplicity)
 - Deployment: Docker, Docker Compose
-- Cryptography: cryptosteganography, Pillow
+- Cryptography: Stegano
