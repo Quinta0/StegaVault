@@ -1,27 +1,29 @@
-import './globals.css';
+import './globals.css'
+import { Inter } from 'next/font/google'
+import { ThemeProvider } from "@/components/theme-provider"
+import NavBar from '@/components/NavBar'
+import React from "react";
 
-export default function Layout({ children }) {
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+  title: 'StegaVault',
+  description: 'Secure password management with steganography',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>StegaVault</title>
-      </head>
-      <body>
-        <header className="header">
-          <nav>
-            <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/get-started">Get Started</a></li>
-              <li><a href="/app">App</a></li>
-            </ul>
-          </nav>
-        </header>
-        <main>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <NavBar />
           {children}
-        </main>
+        </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

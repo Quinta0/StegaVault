@@ -6,6 +6,7 @@ services:
       - "5000:5000"
     volumes:
       - ./backend:/app
+      - ./backend/stegavault.db:/app/stegavault.db
     environment:
       - FLASK_ENV=development
 
