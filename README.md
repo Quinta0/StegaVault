@@ -6,7 +6,7 @@ StegaVault is a secure, self-hosted password vault application that leverages th
 - Secure Password Vault: Organize and manage your passwords securely with encryption.
 - User Authentication: Ensure only authorized access with secure login mechanisms.
 - Web-Based Interface: Access your password vault from any device with an intuitive, responsive web interface.
-- Self-Hosted: Maintain full control over your data by hosting StegaVault on your own servers.
+- Self-Hosted: Maintain full control over your data by hosting StegaVault on your own device.
 - Backup and Restore: Easily backup and restore your vault to ensure data continuity.
 
 
