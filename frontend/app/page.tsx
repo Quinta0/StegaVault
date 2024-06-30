@@ -6,20 +6,20 @@ export default function Component() {
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-primary">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-primary flex justify-center items-center">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-              <div className="flex flex-col justify-center space-y-4">
+              <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter text-primary-foreground sm:text-5xl xl:text-6xl/none">
                     Secure Your Data with Steganography
                   </h1>
-                  <p className="max-w-[600px] text-primary-foreground md:text-xl">
+                  <p className="max-w-[600px] text-primary-foreground md:text-xl mx-auto lg:mx-0">
                     Our self-hosted steganography web application allows you to hide sensitive information within
                     ordinary digital media, keeping your data safe and secure.
                   </p>
                 </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-start">
                   <Link
                     href="#"
                     className="inline-flex h-10 items-center justify-center rounded-md bg-primary-foreground px-8 text-sm font-medium text-primary shadow transition-colors hover:bg-primary-foreground/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
@@ -44,7 +44,7 @@ export default function Component() {
             </div>
           </div>
         </section>
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-muted flex justify-center items-center">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -93,17 +93,17 @@ export default function Component() {
             </div>
           </div>
         </section>
-        <section id="about" className="w-full py-12 md:py-24 lg:py-32">
+        <section id="about" className="w-full py-12 md:py-24 lg:py-32 flex justify-center items-center">
           <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
-            <div className="space-y-2">
+            <div className="space-y-2 text-center lg:text-left">
               <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">About Our Steganography App</h2>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto lg:mx-0">
                 Our self-hosted steganography web application is designed to help you keep your sensitive data safe and
                 secure. By leveraging the power of steganography, you can hide information within ordinary digital
                 media, making it virtually undetectable to unauthorized parties.
               </p>
             </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row lg:justify-end">
+            <div className="flex flex-col gap-2 min-[400px]:flex-row lg:justify-end justify-center">
               <Link
                 href="#"
                 className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
@@ -121,7 +121,7 @@ export default function Component() {
             </div>
           </div>
         </section>
-        <section id="contact" className="w-full py-12 md:py-24 lg:py-32 border-t">
+        <section id="contact" className="w-full py-12 md:py-24 lg:py-32 border-t flex justify-center items-center">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
               <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Get in Touch</h2>
@@ -153,4 +153,3 @@ export default function Component() {
     </div>
   )
 }
-
