@@ -6,9 +6,10 @@ services:
       - "5000:5000"
     volumes:
       - ./backend:/app
-      - ./backend/stegavault.db:/app/stegavault.db
     environment:
       - FLASK_ENV=development
+    networks:
+      - app-network
 
   frontend:
     build: ./frontend
@@ -18,3 +19,9 @@ services:
       - ./frontend:/app
     environment:
       - NODE_ENV=development
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

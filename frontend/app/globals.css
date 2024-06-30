@@ -1,24 +1,42 @@
 @tailwind base;
 @tailwind components;
-@tailwind components;
+@tailwind utilities;
 
 @layer base {
   :root {
-    --text: #052924;
-    --background: #defcf8;
-    --primary: #0e816c;
-    --secondary: #6ba2ef;
-    --accent: #172dd9;
-  }
-  .dark {
-    --text: #d6faf5;
-    --background: #03211d;
-    --primary: #7ef1dc;
-    --secondary: #104793;
-    --accent: #263de8;
+    --background: 240 5% 6%;
+    --foreground: 60 5% 90%;
+    --primary: 240 0% 90%;
+    --primary-foreground: 60 0% 0%;
+    --secondary: 240 4% 15%;
+    --secondary-foreground: 60 5% 85%;
+    --accent: 240 0% 13%;
+    --accent-foreground: 60 0% 100%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --muted: 240 5% 25%;
+    --muted-foreground: 60 5% 85%;
+    --card: 240 4% 10%;
+    --card-foreground: 60 5% 90%;
+    --popover: 240 5% 15%;
+    --popover-foreground: 60 5% 85%;
+    --border: 240 6% 20%;
+    --input: 240 6% 20%;
+    --ring: 240 5% 90%;
+    --radius: 0.5rem;
   }
 }
 
-body {
-  font-family: 'Noto Sans Coptic', sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
 }

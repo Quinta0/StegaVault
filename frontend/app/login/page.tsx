@@ -1,25 +1,30 @@
 "use client"
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { toast } from "@/components/ui/use-toast"
 
 export default function Auth() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setIsLoading(true)
 
     const formData = new FormData(event.currentTarget)
-    const username = formData.get('username')
-    const password = formData.get('password')
+    const username = formData.get('username') as string
+    const password = formData.get('password') as string
     const isLogin = event.currentTarget.id === 'login-form'
 
     try {
-      const response = await fetch(`/api/auth/${isLogin ? 'login' : 'register'}`, {
+      // Update this URL to match your API server address
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+      const response = await fetch(`${apiUrl}/api/auth/${isLogin ? 'login' : 'register'}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,16 +32,30 @@ export default function Auth() {
         body: JSON.stringify({ username, password }),
       })
 
-      if (response.ok) {
-        // Handle successful login/signup
-        console.log(isLogin ? 'Login successful' : 'Signup successful')
-        // Redirect to dashboard or handle as needed
-      } else {
-        // Handle errors
-        console.error('Authentication failed')
+      if (!response.ok) {
+        const errorData = await response.text()
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData}`)
       }
+
+      const data = await response.json()
+
+      toast({
+        title: isLogin ? 'Login Successful' : 'Signup Successful',
+        description: data.message,
+      })
+
+      if (isLogin) {
+        localStorage.setItem('token', data.token)
+      }
+
+      router.push('/dashboard')
     } catch (error) {
       console.error('An error occurred:', error)
+      toast({
+        title: 'Authentication Failed',
+        description: error instanceof Error ? error.message : 'An unexpected error occurred',
+        variant: 'destructive',
+      })
     } finally {
       setIsLoading(false)
     }

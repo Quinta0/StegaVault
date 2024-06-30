@@ -1,10 +1,23 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import NavBar from '@/components/NavBar'
-import React from "react";
+import React from "react"
+import { Toaster } from "@/components/ui/toaster"
+import {cn} from "@/lib/utils";
 
-const inter = Inter({ subsets: ['latin'] })
+const fontHeading = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-heading',
+})
+
+const fontBody = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-body',
+})
+
 
 export const metadata = {
   title: 'StegaVault',
@@ -17,11 +30,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en">
+      <body
+        className={cn(
+          'antialiased',
+          fontHeading.variable,
+          fontBody.variable,
+        )}
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NavBar />
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
