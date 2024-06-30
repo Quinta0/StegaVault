@@ -1,4 +1,5 @@
 import PasswordEntry from '../../components/PasswordEntry'
+import PasswordList from '../../components/PasswordList';
 
 export default function Dashboard() {
   return (
@@ -11,7 +12,7 @@ export default function Dashboard() {
         </div>
         <div>
           <h2 className="text-2xl font-bold mb-4">Your Passwords</h2>
-          {/* Add a list or grid of saved passwords here */}
+          <PasswordList />
         </div>
       </div>
     </div>
