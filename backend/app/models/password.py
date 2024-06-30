@@ -8,3 +8,4 @@ class Password(db.Model):
     username = db.Column(db.String(80), nullable=False)
     encrypted_password = db.Column(db.String(256), nullable=False)
     image_path = db.Column(db.String(256), nullable=False)
+    type = db.Column(db.String(10), nullable=False)

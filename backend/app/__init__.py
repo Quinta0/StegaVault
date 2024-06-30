@@ -23,7 +23,7 @@ def create_app():
 
     db.init_app(app)
     bcrypt.init_app(app)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
     with app.app_context():
         from .routes import auth, passwords
