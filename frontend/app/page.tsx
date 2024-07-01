@@ -126,7 +126,7 @@ export default function Component() {
             <div className="space-y-3">
               <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Get in Touch</h2>
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Have questions or need help with our steganography app? Don't hesitate to reach out to our support team.
+                Have questions or need help with our steganography app? Don't hesitate to reach out.
               </p>
             </div>
             <div className="mx-auto w-full max-w-sm space-y-2">
