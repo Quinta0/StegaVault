@@ -1,2 +1,5 @@
 /.env
 /backend/app/instance/
+!/backend/app/encrypted_files/
+
+!/backend/app/instance/
