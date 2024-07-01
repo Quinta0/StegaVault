@@ -1,6 +1,10 @@
+from cryptography.fernet import Fernet
 from stegano import lsb
 import wave
 import textwrap
+import os
+
+from ..services.password_manager import ENCRYPTED_FILE_PATH
 
 
 # Image Steganography
@@ -76,3 +80,15 @@ def retrieve_password_from_text(text_path):
         return text_content.split("<!-- ")[1].split(" -->")[0]
     except Exception as e:
         raise ValueError(f"Failed to retrieve password from text: {e}")
+
+
+def save_encrypted_file(file_content, filename):
+    key = Fernet.generate_key()
+    fernet = Fernet(key)
+    encrypted_content = fernet.encrypt(file_content)
+
+    file_path = os.path.join(ENCRYPTED_FILE_PATH, filename)
+    with open(file_path, 'wb') as f:
+        f.write(encrypted_content)
+
+    return file_path, key

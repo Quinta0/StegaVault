@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Link from 'next/link';
 import { ModeToggle } from './mode-toggle';
@@ -72,7 +72,7 @@ const NavBar: React.FC = () => {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-xs bg-background p-6">
-            <nav className="grid gap-4 ">
+            <nav className="grid gap-4">
               <Link href="#" className="self-center text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                 Features
               </Link>
@@ -82,6 +82,11 @@ const NavBar: React.FC = () => {
               <Link href="#" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                 Contact
               </Link>
+              {isLoggedIn && (
+                <Link href="/vault" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                  Vault
+                </Link>
+              )}
               <Link href="/dashboard" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                 Dashboard
               </Link>
@@ -107,6 +112,11 @@ const NavBar: React.FC = () => {
           <Link href="#" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
             Contact
           </Link>
+          {isLoggedIn && (
+            <Link href="/vault" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+              Vault
+            </Link>
+          )}
           <Link href="/dashboard" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
             Dashboard
           </Link>

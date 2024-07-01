@@ -1,11 +1,12 @@
 import logging
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from ..models.password import Password
 from .. import db
 from ..services.stenography import (
     hide_password_in_image, retrieve_password_from_image,
     hide_password_in_audio, retrieve_password_from_audio,
-    hide_password_in_text, retrieve_password_from_text
+    hide_password_in_text, retrieve_password_from_text,
+    save_encrypted_file
 )
 from ..services.encryption import encrypt_password, decrypt_password
 from ..utils.auth import token_required
@@ -34,22 +35,26 @@ def add_password(current_user):
     encrypted_password = encrypt_password(password)
 
     try:
+        file_content = file.read()
         if type == 'image':
-            image_path = hide_password_in_image(encrypted_password, file)
+            hidden_file_path = hide_password_in_image(encrypted_password, file)
         elif type == 'audio':
-            image_path = hide_password_in_audio(encrypted_password, file)
+            hidden_file_path = hide_password_in_audio(encrypted_password, file)
         elif type == 'text':
-            image_path = hide_password_in_text(encrypted_password, file)
+            hidden_file_path = hide_password_in_text(encrypted_password, file)
         else:
             return jsonify({"message": "Invalid type specified"}), 400
+
+        file_path, key = save_encrypted_file(file_content, file.filename)
 
         new_password = Password(
             user_id=current_user.id,
             site=site,
             username=username,
             encrypted_password=encrypted_password,
-            image_path=image_path,
-            type=type  # Ensure the type is saved
+            image_path=hidden_file_path,
+            file_key=key.decode(),
+            type=type
         )
         db.session.add(new_password)
         db.session.commit()
@@ -62,6 +67,7 @@ def add_password(current_user):
 @bp.route('/', methods=['GET'])
 @token_required
 def get_passwords(current_user):
+    current_app.logger.info(f"get_passwords called with current_user: {current_user}")
     try:
         passwords = Password.query.filter_by(user_id=current_user.id).all()
         return jsonify([{
@@ -71,7 +77,7 @@ def get_passwords(current_user):
             'image_path': p.image_path
         } for p in passwords]), 200
     except Exception as e:
-        logging.error(f"An error occurred while fetching passwords: {e}", exc_info=True)
+        current_app.logger.error(f"An error occurred while fetching passwords: {e}", exc_info=True)
         return jsonify({"message": f"An error occurred: {str(e)}"}), 500
 
 
