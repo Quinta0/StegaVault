@@ -1,3 +1,4 @@
+# password_manager.py
 import os
 from cryptography.fernet import Fernet
 from ..models.password import Password

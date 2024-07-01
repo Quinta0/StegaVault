@@ -6,12 +6,14 @@ import os
 
 from ..services.password_manager import ENCRYPTED_FILE_PATH
 
+os.makedirs(ENCRYPTED_FILE_PATH, exist_ok=True)
+
 
 # Image Steganography
 def hide_password_in_image(password, image_file):
     try:
         secret = lsb.hide(image_file, password)
-        output_path = f"hidden_{image_file.filename}"
+        output_path = os.path.join(ENCRYPTED_FILE_PATH, f"hidden_{image_file.filename}")
         secret.save(output_path)
         return output_path
     except Exception as e:
@@ -38,7 +40,7 @@ def hide_password_in_audio(password, audio_file):
         for i in range(len(binary_password)):
             frames[i] = (frames[i] & 254) | int(binary_password[i])
 
-        output_path = f"hidden_{audio_file.filename}"
+        output_path = os.path.join(ENCRYPTED_FILE_PATH, f"hidden_{audio_file.filename}")
         with wave.open(output_path, 'wb') as audio:
             audio.setparams(audio.getparams())
             audio.writeframes(frames)
@@ -65,7 +67,7 @@ def hide_password_in_text(password, text_file):
     try:
         text_content = text_file.read().decode('utf-8')
         hidden_text = text_content + "\n<!-- " + password + " -->"
-        output_path = f"hidden_{text_file.filename}"
+        output_path = os.path.join(ENCRYPTED_FILE_PATH, f"hidden_{text_file.filename}")
         with open(output_path, 'w') as f:
             f.write(hidden_text)
         return output_path
