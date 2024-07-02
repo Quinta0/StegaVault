@@ -1,26 +1,50 @@
 import './globals.css';
+import { Manrope } from 'next/font/google';
+import { ThemeProvider } from "@/components/theme-provider";
+import NavBar from '@/components/NavBar';
+import React from "react";
+import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
+import { AuthProvider } from '../context/AuthContext';
 
-export default function Layout({ children }) {
+const fontHeading = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-heading',
+});
+
+const fontBody = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-body',
+});
+
+export const metadata = {
+  title: 'StegaVault',
+  description: 'Secure password management with steganography',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>StegaVault</title>
-      </head>
-      <body>
-        <header className="header">
-          <nav>
-            <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/get-started">Get Started</a></li>
-              <li><a href="/app">App</a></li>
-            </ul>
-          </nav>
-        </header>
-        <main>
-          {children}
-        </main>
+      <body
+        className={cn(
+          'antialiased',
+          fontHeading.variable,
+          fontBody.variable,
+        )}
+      >
+        <AuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <NavBar />
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
