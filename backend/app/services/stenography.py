@@ -19,14 +19,14 @@ def hide_password_in_image(password, image_file):
         secret = lsb.hide(image_file, encrypted_password)
         output_path = os.path.join(ENCRYPTED_FILE_PATH, f"hidden_{image_file.filename}")
         secret.save(output_path)
-        return output_path, key
+        return output_path, key.decode()
     except Exception as e:
         raise ValueError(f"Failed to hide password in image: {e}")
 
 
 def retrieve_password_from_image(image_path, key):
     try:
-        fernet = Fernet(key)
+        fernet = Fernet(key.encode())
         encrypted_password = lsb.reveal(image_path)
         return fernet.decrypt(encrypted_password.encode()).decode()
     except Exception as e:
@@ -51,7 +51,7 @@ def hide_password_in_audio(password, audio_file):
         with wave.open(output_path, 'wb') as audio:
             audio.setparams(audio.getparams())
             audio.writeframes(frames)
-        return output_path, key
+        return output_path, key.decode()
     except Exception as e:
         raise ValueError(f"Failed to hide password in audio: {e}")
 
@@ -66,7 +66,7 @@ def retrieve_password_from_audio(audio_path, key):
         password = textwrap.fill(binary_password, 8)
         encrypted_password = ''.join(chr(int(char, 2)) for char in password.split())
 
-        fernet = Fernet(key)
+        fernet = Fernet(key.encode())
         return fernet.decrypt(encrypted_password.encode()).decode()
     except Exception as e:
         raise ValueError(f"Failed to retrieve password from audio: {e}")
@@ -84,7 +84,7 @@ def hide_password_in_text(password, text_file):
         output_path = os.path.join(ENCRYPTED_FILE_PATH, f"hidden_{text_file.filename}")
         with open(output_path, 'w') as f:
             f.write(hidden_text)
-        return output_path, key
+        return output_path, key.decode()
     except Exception as e:
         raise ValueError(f"Failed to hide password in text: {e}")
 
@@ -95,7 +95,7 @@ def retrieve_password_from_text(text_path, key):
             text_content = f.read()
         encrypted_password = text_content.split("<!-- ")[1].split(" -->")[0]
 
-        fernet = Fernet(key)
+        fernet = Fernet(key.encode())
         return fernet.decrypt(encrypted_password.encode()).decode()
     except Exception as e:
         raise ValueError(f"Failed to retrieve password from text: {e}")
@@ -110,4 +110,4 @@ def save_encrypted_file(file_content, filename):
     with open(file_path, 'wb') as f:
         f.write(encrypted_content)
 
-    return file_path, key
+    return file_path, key.decode()

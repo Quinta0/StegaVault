@@ -17,7 +17,7 @@ interface Password {
 export default function Vault() {
   const [passwords, setPasswords] = useState<Password[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const { toast } = useToast(); // Use toast hook
+  const { toast } = useToast();
 
   useEffect(() => {
     fetchPasswords();
