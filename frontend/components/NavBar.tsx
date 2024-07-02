@@ -121,7 +121,7 @@ const NavBar: React.FC = () => {
             Dashboard
           </Link>
           {!isLoggedIn ? (
-            <Link href="/login" className="text-sm font-medium hover:underline underline-offset-4 border-2 px-4 py-2 rounded-full" prefetch={false}>
+            <Link href="/login" className="text-sm font-medium hover:border-white underline-offset-4 border-2 px-4 py-2 rounded-full" prefetch={false}>
               Login
             </Link>
           ) : (
