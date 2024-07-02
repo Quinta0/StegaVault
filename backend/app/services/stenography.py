@@ -12,17 +12,23 @@ os.makedirs(ENCRYPTED_FILE_PATH, exist_ok=True)
 # Image Steganography
 def hide_password_in_image(password, image_file):
     try:
-        secret = lsb.hide(image_file, password)
+        key = Fernet.generate_key()
+        fernet = Fernet(key)
+        encrypted_password = fernet.encrypt(password.encode()).decode()
+
+        secret = lsb.hide(image_file, encrypted_password)
         output_path = os.path.join(ENCRYPTED_FILE_PATH, f"hidden_{image_file.filename}")
         secret.save(output_path)
-        return output_path
+        return output_path, key
     except Exception as e:
         raise ValueError(f"Failed to hide password in image: {e}")
 
 
-def retrieve_password_from_image(image_path):
+def retrieve_password_from_image(image_path, key):
     try:
-        return lsb.reveal(image_path)
+        fernet = Fernet(key)
+        encrypted_password = lsb.reveal(image_path)
+        return fernet.decrypt(encrypted_password.encode()).decode()
     except Exception as e:
         raise ValueError(f"Failed to retrieve password from image: {e}")
 
@@ -30,26 +36,27 @@ def retrieve_password_from_image(image_path):
 # Audio Steganography
 def hide_password_in_audio(password, audio_file):
     try:
-        # Convert password to binary
-        binary_password = ''.join(format(ord(char), '08b') for char in password)
+        key = Fernet.generate_key()
+        fernet = Fernet(key)
+        encrypted_password = ''.join(format(ord(char), '08b') for char in fernet.encrypt(password.encode()).decode())
+
         audio = wave.open(audio_file, mode='rb')
         frames = bytearray(list(audio.readframes(audio.getnframes())))
         audio.close()
 
-        # Embed the password in the least significant bit of each audio frame
-        for i in range(len(binary_password)):
-            frames[i] = (frames[i] & 254) | int(binary_password[i])
+        for i in range(len(encrypted_password)):
+            frames[i] = (frames[i] & 254) | int(encrypted_password[i])
 
         output_path = os.path.join(ENCRYPTED_FILE_PATH, f"hidden_{audio_file.filename}")
         with wave.open(output_path, 'wb') as audio:
             audio.setparams(audio.getparams())
             audio.writeframes(frames)
-        return output_path
+        return output_path, key
     except Exception as e:
         raise ValueError(f"Failed to hide password in audio: {e}")
 
 
-def retrieve_password_from_audio(audio_path):
+def retrieve_password_from_audio(audio_path, key):
     try:
         audio = wave.open(audio_path, mode='rb')
         frames = bytearray(list(audio.readframes(audio.getnframes())))
@@ -57,7 +64,10 @@ def retrieve_password_from_audio(audio_path):
 
         binary_password = ''.join(str((frames[i] & 1)) for i in range(len(frames)))
         password = textwrap.fill(binary_password, 8)
-        return ''.join(chr(int(char, 2)) for char in password.split())
+        encrypted_password = ''.join(chr(int(char, 2)) for char in password.split())
+
+        fernet = Fernet(key)
+        return fernet.decrypt(encrypted_password.encode()).decode()
     except Exception as e:
         raise ValueError(f"Failed to retrieve password from audio: {e}")
 
@@ -65,21 +75,28 @@ def retrieve_password_from_audio(audio_path):
 # Text Steganography
 def hide_password_in_text(password, text_file):
     try:
+        key = Fernet.generate_key()
+        fernet = Fernet(key)
+        encrypted_password = fernet.encrypt(password.encode()).decode()
+
         text_content = text_file.read().decode('utf-8')
-        hidden_text = text_content + "\n<!-- " + password + " -->"
+        hidden_text = text_content + "\n<!-- " + encrypted_password + " -->"
         output_path = os.path.join(ENCRYPTED_FILE_PATH, f"hidden_{text_file.filename}")
         with open(output_path, 'w') as f:
             f.write(hidden_text)
-        return output_path
+        return output_path, key
     except Exception as e:
         raise ValueError(f"Failed to hide password in text: {e}")
 
 
-def retrieve_password_from_text(text_path):
+def retrieve_password_from_text(text_path, key):
     try:
         with open(text_path, 'r') as f:
             text_content = f.read()
-        return text_content.split("<!-- ")[1].split(" -->")[0]
+        encrypted_password = text_content.split("<!-- ")[1].split(" -->")[0]
+
+        fernet = Fernet(key)
+        return fernet.decrypt(encrypted_password.encode()).decode()
     except Exception as e:
         raise ValueError(f"Failed to retrieve password from text: {e}")
 

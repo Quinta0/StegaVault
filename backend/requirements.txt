@@ -5,4 +5,4 @@ Flask-CORS>=3.0.10
 PyJWT>=2.3.0
 stegano>=0.9.9
 cryptography>=3.4.7
-pytest>=7.3.1
+Pillow>=8.2.0
