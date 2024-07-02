@@ -1,7 +1,7 @@
 # StegaVault
 
 ## Overview
-StegaVault is a secure, self-hosted password vault application that leverages steganography to hide and retrieve passwords within various media types. This unique method ensures that your sensitive information remains hidden and protected, making it virtually undetectable to unauthorized parties. StegaVault combines advanced cryptographic techniques with an intuitive web-based interface, offering a robust solution for managing and safeguarding your passwords.
+StegaVault is a secure, self-hosted password vault application that leverages steganography to hide and retrieve passwords within various media types. This unique method ensures that your sensitive information remains hidden and protected, making it virtually undetectable to unauthorized parties. 
 
 ## Features
 - **Image Steganography**: Conceal data within image files, ensuring your sensitive information remains hidden.
