@@ -3,9 +3,10 @@ from stegano import lsb
 import wave
 import textwrap
 import os
+from PIL import Image
+import io
 
-from ..services.password_manager import ENCRYPTED_FILE_PATH
-
+ENCRYPTED_FILE_PATH = os.path.join(os.path.dirname(__file__), '..', 'encrypted_files')
 os.makedirs(ENCRYPTED_FILE_PATH, exist_ok=True)
 
 
@@ -16,7 +17,8 @@ def hide_password_in_image(password, image_file):
         fernet = Fernet(key)
         encrypted_password = fernet.encrypt(password.encode()).decode()
 
-        secret = lsb.hide(image_file, encrypted_password)
+        image = Image.open(image_file)
+        secret = lsb.hide(image, encrypted_password)
         output_path = os.path.join(ENCRYPTED_FILE_PATH, f"hidden_{image_file.filename}")
         secret.save(output_path)
         return output_path, key.decode()
@@ -99,15 +101,3 @@ def retrieve_password_from_text(text_path, key):
         return fernet.decrypt(encrypted_password.encode()).decode()
     except Exception as e:
         raise ValueError(f"Failed to retrieve password from text: {e}")
-
-
-def save_encrypted_file(file_content, filename):
-    key = Fernet.generate_key()
-    fernet = Fernet(key)
-    encrypted_content = fernet.encrypt(file_content)
-
-    file_path = os.path.join(ENCRYPTED_FILE_PATH, filename)
-    with open(file_path, 'wb') as f:
-        f.write(encrypted_content)
-
-    return file_path, key.decode()
